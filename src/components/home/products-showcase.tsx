@@ -3,13 +3,8 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { products } from "@/lib/mock-data";
+import { products, getProductImage } from "@/lib/mock-data";
 import { formatPrice } from "@/lib/utils";
-
-const productImages: Record<string, string> = {
-  "lentes-antiluz": "/images/productos/lentes-antiluz.jpg",
-  "bandas-nasales": "/images/productos/bandas-nasales.jpg",
-};
 
 export function ProductsShowcase() {
   return (
@@ -32,7 +27,7 @@ export function ProductsShowcase() {
                   {product.category}
                 </Badge>
                 <Image
-                  src={productImages[product.slug]}
+                  src={getProductImage(product.slug)}
                   alt={product.name}
                   fill
                   className="object-cover"

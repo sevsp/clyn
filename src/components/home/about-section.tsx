@@ -1,13 +1,17 @@
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { ProductArt } from "@/components/product/product-art";
+import Image from "next/image";
 
 export function AboutSection() {
   return (
     <section id="nosotros" className="bg-muted/50 py-20">
       <div className="mx-auto grid max-w-6xl items-center gap-12 px-4 sm:px-6 md:grid-cols-2">
         <div className="relative order-2 flex aspect-square items-center justify-center rounded-3xl bg-white p-12 shadow-sm md:order-1">
-          <ProductArt variant="nasal-band" />
+          <Image
+            src="/images/brand/clyn-logo.jpg"
+            alt="Logo de CLYN"
+            width={480}
+            height={480}
+            className="w-full max-w-xs object-contain"
+          />
         </div>
 
         <div className="order-1 space-y-5 md:order-2">
@@ -26,22 +30,6 @@ export function AboutSection() {
             priorizando materiales buenos y comodidad diaria, sin vueltas
             innecesarias.
           </p>
-          <div className="flex gap-3 pt-2">
-            <Button
-              render={<Link href="/productos/lentes-antiluz" />}
-              nativeButton={false}
-              className="bg-accent text-accent-foreground hover:bg-accent/90"
-            >
-              Comprar ahora
-            </Button>
-            <Button
-              render={<Link href="/#ciencia" />}
-              nativeButton={false}
-              variant="outline"
-            >
-              Ver detalles
-            </Button>
-          </div>
         </div>
       </div>
     </section>

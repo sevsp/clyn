@@ -1,9 +1,9 @@
 export { cn } from "cn"
 
 export function formatPrice(value: number) {
-  return new Intl.NumberFormat("es-CO", {
+  return new Intl.NumberFormat("es-PY", {
     style: "currency",
-    currency: "COP",
+    currency: "PYG",
     maximumFractionDigits: 0,
   }).format(value);
 }

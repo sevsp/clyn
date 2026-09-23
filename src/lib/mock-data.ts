@@ -3,15 +3,13 @@ import type { Product } from "@/types/product";
 export const products: Product[] = [
   {
     slug: "lentes-antiluz",
-    name: "Lentes Antiluz CLYN",
+    name: "Lentes Antiluz Azul CLYN",
     tagline: "Filtro naranja de alta protección contra la luz azul",
-    category: "Lentes antiluz",
+    category: "Lentes antiluz azul",
     price: 129900,
     compareAtPrice: 159900,
-    rating: 4.8,
-    reviewCount: 342,
     description:
-      "Nuestros lentes antiluz filtran hasta el 90% de la luz azul emitida por pantallas, reduciendo la fatiga visual y mejorando tu calidad de sueño. El filtro naranja está diseñado para uso nocturno frente a computadores, celulares y televisores.",
+      "Nuestros lentes antiluz azul filtran hasta el 90% de la luz azul emitida por pantallas, reduciendo la fatiga visual y mejorando tu calidad de sueño. El filtro naranja está diseñado para uso nocturno frente a computadores, celulares y televisores.",
     benefits: [
       "Bloquea hasta 90% de la luz azul",
       "Reduce la fatiga visual digital",
@@ -24,12 +22,7 @@ export const products: Product[] = [
       { label: "Peso", value: "22 g" },
       { label: "Protección UV", value: "UV400" },
     ],
-    variants: [
-      { id: "navy", label: "Azul marino", colorHex: "#16324F" },
-      { id: "black", label: "Negro mate", colorHex: "#1B2430" },
-      { id: "tortoise", label: "Carey", colorHex: "#6B4A2E" },
-    ],
-    art: "glasses",
+    variants: [{ id: "unico", label: "Único" }],
   },
   {
     slug: "bandas-nasales",
@@ -38,8 +31,6 @@ export const products: Product[] = [
     category: "Bandas nasales",
     price: 39900,
     compareAtPrice: 49900,
-    rating: 4.6,
-    reviewCount: 218,
     description:
       "Las bandas nasales CLYN abren suavemente tus fosas nasales para mejorar el flujo de aire, reduciendo el ronquido y facilitando la respiración durante el ejercicio o el sueño. Hipoalergénicas y de uso diario.",
     benefits: [
@@ -51,17 +42,22 @@ export const products: Product[] = [
     specs: [
       { label: "Presentación", value: "Caja x 30 unidades" },
       { label: "Material", value: "Fibra hipoalergénica" },
-      { label: "Tamaño", value: "Regular / Grande" },
+      { label: "Tamaño", value: "Talla única" },
       { label: "Uso", value: "Diario, hasta 12h" },
     ],
-    variants: [
-      { id: "regular", label: "Regular" },
-      { id: "large", label: "Grande" },
-    ],
-    art: "nasal-band",
+    variants: [{ id: "unico", label: "Único" }],
   },
 ];
 
 export function getProductBySlug(slug: string) {
   return products.find((p) => p.slug === slug);
+}
+
+const productImages: Record<string, string> = {
+  "lentes-antiluz": "/images/productos/lentes-antiluz.jpg",
+  "bandas-nasales": "/images/productos/bandas-nasales.jpg",
+};
+
+export function getProductImage(slug: string) {
+  return productImages[slug];
 }

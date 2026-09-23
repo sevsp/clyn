@@ -16,13 +16,10 @@ export type Product = {
   category: string;
   price: number;
   compareAtPrice?: number;
-  rating: number;
-  reviewCount: number;
   description: string;
   benefits: string[];
   specs: ProductSpec[];
   variants: ProductVariant[];
-  art: "glasses" | "nasal-band";
 };
 
 export type CartItem = {

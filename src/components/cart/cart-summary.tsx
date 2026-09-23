@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/lib/cart-store";
@@ -32,15 +33,14 @@ export function CartSummary() {
         <span>{formatPrice(total)}</span>
       </div>
       <Button
+        render={<Link href="/checkout" onClick={() => useCartStore.getState().close()} />}
+        nativeButton={false}
         size="lg"
-        className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
-        disabled={items.length === 0}
+        className="w-full bg-accent text-accent-foreground hover:bg-accent/90 aria-disabled:pointer-events-none aria-disabled:opacity-50"
+        aria-disabled={items.length === 0}
       >
         Ir a pagar
       </Button>
-      <p className="text-center text-xs text-muted-foreground">
-        Checkout disponible próximamente.
-      </p>
     </div>
   );
 }

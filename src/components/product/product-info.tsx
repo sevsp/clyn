@@ -9,13 +9,21 @@ import { useCartStore } from "@/lib/cart-store";
 import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/types/product";
 
-export function ProductInfo({ product }: { product: Product }) {
+export function ProductInfo({
+  product,
+  average,
+  count,
+}: {
+  product: Product;
+  average: number;
+  count: number;
+}) {
   const [variantId, setVariantId] = useState(product.variants[0].id);
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
 
   return (
-    <div className="space-y-6">
+    <div className="min-w-0 space-y-6">
       <div>
         <p className="text-sm font-medium text-accent">{product.category}</p>
         <h1 className="font-heading text-3xl font-extrabold text-primary sm:text-4xl">
@@ -30,7 +38,7 @@ export function ProductInfo({ product }: { product: Product }) {
             <Star
               key={i}
               className={
-                i < Math.round(product.rating)
+                i < Math.round(average)
                   ? "size-4 fill-current"
                   : "size-4 fill-none text-muted-foreground/40"
               }
@@ -38,11 +46,13 @@ export function ProductInfo({ product }: { product: Product }) {
           ))}
         </div>
         <span className="text-sm text-muted-foreground">
-          {product.rating} ({product.reviewCount} reseñas)
+          {count > 0
+            ? `${average.toFixed(1)} (${count} reseña${count === 1 ? "" : "s"})`
+            : "Sé el primero en opinar"}
         </span>
       </div>
 
-      <div className="flex items-baseline gap-3">
+      <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="text-2xl font-bold text-primary">
           {formatPrice(product.price)}
         </span>
@@ -53,11 +63,13 @@ export function ProductInfo({ product }: { product: Product }) {
         )}
       </div>
 
-      <VariantSelector
-        variants={product.variants}
-        value={variantId}
-        onChange={setVariantId}
-      />
+      {product.variants.length > 1 && (
+        <VariantSelector
+          variants={product.variants}
+          value={variantId}
+          onChange={setVariantId}
+        />
+      )}
 
       <div className="space-y-2">
         <p className="text-sm font-medium text-foreground">Cantidad</p>
