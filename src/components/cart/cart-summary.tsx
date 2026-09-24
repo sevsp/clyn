@@ -14,8 +14,7 @@ export function CartSummary() {
     const product = getProductBySlug(item.productSlug);
     return sum + (product ? product.price * item.quantity : 0);
   }, 0);
-  const shipping = subtotal > 0 ? 12000 : 0;
-  const total = subtotal + shipping;
+  const total = subtotal;
 
   return (
     <div className="space-y-3">
@@ -25,7 +24,7 @@ export function CartSummary() {
       </div>
       <div className="flex justify-between text-sm text-muted-foreground">
         <span>Envío</span>
-        <span>{shipping > 0 ? formatPrice(shipping) : "—"}</span>
+        <span>{subtotal > 0 ? "Envío gratis" : "—"}</span>
       </div>
       <Separator />
       <div className="flex justify-between text-base font-semibold text-foreground">

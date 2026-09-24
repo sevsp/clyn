@@ -12,7 +12,7 @@ import { getProductBySlug } from "@/lib/mock-data";
 import { formatPrice, cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 
-const SHIPPING_COST = 12000;
+const SHIPPING_COST = 0;
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -173,7 +173,7 @@ export default function CheckoutPage() {
           <Separator className="my-3" />
           <div className="flex justify-between text-sm text-muted-foreground">
             <span>Envío</span>
-            <span>{formatPrice(SHIPPING_COST)}</span>
+            <span>Envío gratis</span>
           </div>
           <Separator className="my-3" />
           <div className="flex justify-between text-base font-semibold text-foreground">

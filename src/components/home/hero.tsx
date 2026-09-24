@@ -15,7 +15,7 @@ const slides = [
     product: getProductBySlug("lentes-antiluz")!,
     image: "/images/hero/lentes-modelo.jpg",
     mobileImage: "/images/hero/lentes-modelo-mobile.jpg",
-    badge: "Nuevo · Filtro naranja",
+    badge: "Nuevo · Filtro rojo",
     heading: ["Cuida tu vista.", "Cuida tu descanso."],
     textPosition: "left" as const,
     theme: "dark" as const,

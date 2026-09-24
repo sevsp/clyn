@@ -26,7 +26,7 @@ export function AboutSection() {
             honestos, probados y fáciles de incorporar a tu rutina.
           </p>
           <p className="text-muted-foreground">
-            Cada lente y cada banda nasal pasa por nuestro control de calidad,
+            Cada lente y cada tira nasal pasa por nuestro control de calidad,
             priorizando materiales buenos y comodidad diaria, sin vueltas
             innecesarias.
           </p>

@@ -6,8 +6,8 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { formatPrice } from "@/lib/utils";
 import { getClientIp, isRateLimited, isSameOrigin } from "@/lib/api-security";
 
-const SHIPPING_COST = 12000;
-const ORDERS_WHATSAPP_NUMBER = "595982868039"; // Franco Andrada
+const SHIPPING_COST = 0;
+const ORDERS_WHATSAPP_NUMBER = "595973477019"; // CLYN oficial
 
 const checkoutSchema = z.object({
   items: z
@@ -119,7 +119,7 @@ export async function POST(request: Request) {
     "",
     ...lineItems.map((item) => `• ${item.productName} × ${item.quantity} — ${formatPrice(item.unitPrice * item.quantity)}`),
     "",
-    `Envío: ${formatPrice(shipping)}`,
+    `Envío: Envío gratis`,
     `Total: ${formatPrice(total)}`,
     "",
     `Nombre: ${contact.name}`,

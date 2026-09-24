@@ -1,7 +1,4 @@
-const whatsappContacts = [
-  { name: "Sebastian Mendieta", phone: "595991863176" },
-  { name: "Franco Andrada", phone: "595982868039" },
-];
+const whatsappContacts = [{ name: "CLYN", phone: "595973477019" }];
 
 const instagramUrl = "https://www.instagram.com/clynpy";
 const email = "clynpy@gmail.com";
@@ -134,7 +131,7 @@ export function Newsletter() {
         </div>
 
         {/* Desktop / tablet: unchanged. */}
-        <div className="relative mt-10 hidden gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-4">
+        <div className="relative mt-10 hidden gap-5 sm:grid sm:grid-cols-3">
           {whatsappContacts.map((contact) => (
             <a
               key={contact.phone}

@@ -2,10 +2,7 @@ import Link from "next/link";
 import { Mail, Phone } from "lucide-react";
 import { Logo } from "@/components/layout/logo";
 
-const whatsappContacts = [
-  { name: "Sebastian Mendieta", phone: "595991863176" },
-  { name: "Franco Andrada", phone: "595982868039" },
-];
+const whatsappContacts = [{ name: "CLYN", phone: "595973477019" }];
 
 const instagramUrl = "https://www.instagram.com/clynpy";
 const email = "clynpy@gmail.com";
@@ -55,7 +52,7 @@ export function Footer() {
           <p className="font-semibold">Tienda</p>
           <ul className="space-y-2 text-primary-foreground/70">
             <li><Link href="/productos/lentes-antiluz">Lentes antiluz azul</Link></li>
-            <li><Link href="/productos/bandas-nasales">Bandas nasales</Link></li>
+            <li><Link href="/productos/bandas-nasales">Tiras nasales</Link></li>
             <li><Link href="/carrito">Carrito</Link></li>
           </ul>
         </div>

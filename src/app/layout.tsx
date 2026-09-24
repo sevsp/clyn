@@ -27,17 +27,17 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "CLYN Paraguay — Lentes antiluz azul y bandas nasales",
+    default: "CLYN Paraguay — Lentes antiluz azul y tiras nasales",
     template: "%s | CLYN Paraguay",
   },
   description:
-    "CLYN vende en Paraguay lentes antiluz azul con filtro naranja y bandas nasales para respirar mejor. Envíos a todo el país, pagás y coordinás por WhatsApp.",
+    "CLYN vende en Paraguay lentes antiluz azul con filtro rojo y tiras nasales para respirar mejor. Envíos a todo el país, pagás y coordinás por WhatsApp.",
   keywords: [
     "lentes antiluz azul Paraguay",
     "lentes antiluz azul",
-    "bandas nasales Paraguay",
+    "tiras nasales Paraguay",
     "filtro luz azul Paraguay",
-    "lentes filtro naranja Paraguay",
+    "lentes filtro rojo Paraguay",
     "CLYN",
     "cuidado personal Paraguay",
   ],
@@ -46,16 +46,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "es_PY",
     siteName: "CLYN",
-    title: "CLYN Paraguay — Lentes antiluz azul y bandas nasales",
+    title: "CLYN Paraguay — Lentes antiluz azul y tiras nasales",
     description:
-      "Lentes antiluz azul con filtro naranja y bandas nasales para respirar mejor. Envíos a todo Paraguay.",
+      "Lentes antiluz azul con filtro rojo y tiras nasales para respirar mejor. Envíos a todo Paraguay.",
     url: siteUrl,
   },
   twitter: {
     card: "summary_large_image",
-    title: "CLYN Paraguay — Lentes antiluz azul y bandas nasales",
+    title: "CLYN Paraguay — Lentes antiluz azul y tiras nasales",
     description:
-      "Lentes antiluz azul con filtro naranja y bandas nasales para respirar mejor. Envíos a todo Paraguay.",
+      "Lentes antiluz azul con filtro rojo y tiras nasales para respirar mejor. Envíos a todo Paraguay.",
   },
 };
 

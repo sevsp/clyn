@@ -5,13 +5,13 @@ const features = [
     icon: Eye,
     title: "Bloquea la luz azul",
     description:
-      "El filtro naranja corta hasta el 90% de la luz azul de tus pantallas para cuidar tu vista.",
+      "El filtro rojo corta hasta el 99.7% de la luz azul de tus pantallas para cuidar tu vista.",
   },
   {
     icon: Wind,
     title: "Mejora tu respiración",
     description:
-      "Las bandas nasales abren tus vías respiratorias para que respires con más facilidad.",
+      "Las tiras nasales abren tus vías respiratorias para que respires con más facilidad, ya sea entrenando o durmiendo.",
   },
   {
     icon: ShieldCheck,
