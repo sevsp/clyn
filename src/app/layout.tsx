@@ -50,12 +50,21 @@ export const metadata: Metadata = {
     description:
       "Lentes antiluz azul con filtro rojo y tiras nasales para respirar mejor. Envíos a todo Paraguay.",
     url: siteUrl,
+    images: [
+      {
+        url: "/images/hero/lentes-modelo.jpg",
+        width: 2400,
+        height: 1050,
+        alt: "Lentes Antiluz Azul CLYN",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "CLYN Paraguay — Lentes antiluz azul y tiras nasales",
     description:
       "Lentes antiluz azul con filtro rojo y tiras nasales para respirar mejor. Envíos a todo Paraguay.",
+    images: ["/images/hero/lentes-modelo.jpg"],
   },
 };
 
