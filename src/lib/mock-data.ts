@@ -6,8 +6,7 @@ export const products: Product[] = [
     name: "Lentes Antiluz Azul CLYN",
     tagline: "Filtro rojo de alta protección contra la luz azul",
     category: "Lentes antiluz azul",
-    price: 149000,
-    compareAtPrice: 159900,
+    price: 169000,
     description:
       "Nuestros lentes antiluz azul filtran hasta el 99.7% de la luz azul emitida por pantallas, reduciendo la fatiga visual y mejorando tu calidad de sueño. El filtro rojo está diseñado para uso nocturno frente a computadores, celulares y televisores.",
     benefits: [
@@ -29,8 +28,7 @@ export const products: Product[] = [
     name: "Tiras Nasales CLYN",
     tagline: "Respira mejor, entrená mejor, duerme mejor",
     category: "Tiras nasales",
-    price: 39900,
-    compareAtPrice: 49900,
+    price: 105000,
     description:
       "Las tiras nasales CLYN abren suavemente tus fosas nasales para mejorar el flujo de aire, reduciendo el ronquido y facilitando la respiración durante el ejercicio o el sueño. Ideales para entrenar con más resistencia y descansar mejor por la noche. Hipoalergénicas y de uso diario.",
     benefits: [
