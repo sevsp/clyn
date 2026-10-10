@@ -55,6 +55,7 @@ const slides: {
     id: "bandas-nasales-deporte-descanso",
     product: getProductBySlug("bandas-nasales")!,
     image: "/images/hero/bandas-nasales-deporte-v3.jpg",
+    mobileImage: "/images/hero/bandas-nasales-deporte-mobile.jpg",
     badge: "Para correr y dormir",
     heading: ["Corre con más aire.", "Duerme sin ronquidos."],
     copy: "Las tiras nasales CLYN abren tus fosas nasales para que rindas más al entrenar y descanses de corrido por la noche.",
