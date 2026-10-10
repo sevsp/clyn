@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getProductBySlug } from "@/lib/mock-data";
+import { getProductBySlug, getVariantPrice } from "@/lib/mock-data";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatPrice } from "@/lib/utils";
@@ -62,7 +62,7 @@ export async function POST(request: Request) {
         product.variants.length > 1
           ? `${product.name} — ${variant.label}`
           : product.name,
-      unitPrice: product.price,
+      unitPrice: getVariantPrice(product, variant.id),
       quantity: item.quantity,
     };
   });

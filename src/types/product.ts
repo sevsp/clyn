@@ -2,6 +2,8 @@ export type ProductVariant = {
   id: string;
   label: string;
   colorHex?: string;
+  price?: number;
+  image?: string;
 };
 
 export type ProductSpec = {

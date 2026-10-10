@@ -24,8 +24,16 @@ export async function updateSession(request: NextRequest) {
   );
 
   // Refresh the session if expired — required for Server Components, which
-  // can't write cookies themselves.
-  await supabase.auth.getUser();
+  // can't write cookies themselves. Visitors without a session cookie have
+  // nothing to refresh, so skip the network round trip to Supabase.
+  const hasSession = request.cookies.getAll().some((c) => c.name.startsWith("sb-"));
+  if (hasSession) {
+    // Don't let an unreachable Supabase block every page request.
+    await Promise.race([
+      supabase.auth.getUser().catch(() => null),
+      new Promise((resolve) => setTimeout(resolve, 2500)),
+    ]);
+  }
 
   return supabaseResponse;
 }

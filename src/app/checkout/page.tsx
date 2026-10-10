@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/lib/cart-store";
-import { getProductBySlug } from "@/lib/mock-data";
+import { getProductBySlug, getVariantPrice } from "@/lib/mock-data";
 import { formatPrice, cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 
@@ -39,7 +39,7 @@ export default function CheckoutPage() {
 
   const subtotal = items.reduce((sum, item) => {
     const product = getProductBySlug(item.productSlug);
-    return sum + (product ? product.price * item.quantity : 0);
+    return sum + (product ? getVariantPrice(product, item.variantId) * item.quantity : 0);
   }, 0);
   const total = items.length > 0 ? subtotal + SHIPPING_COST : 0;
 
@@ -163,9 +163,14 @@ export default function CheckoutPage() {
                   className="flex justify-between text-muted-foreground"
                 >
                   <span>
-                    {product.name} × {item.quantity}
+                    {product.name}
+                    {product.variants.length > 1 &&
+                      ` — ${product.variants.find((v) => v.id === item.variantId)?.label ?? ""}`}{" "}
+                    × {item.quantity}
                   </span>
-                  <span>{formatPrice(product.price * item.quantity)}</span>
+                  <span>
+                    {formatPrice(getVariantPrice(product, item.variantId) * item.quantity)}
+                  </span>
                 </div>
               );
             })}

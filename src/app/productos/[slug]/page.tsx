@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ProductGallery } from "@/components/product/product-gallery";
-import { ProductInfo } from "@/components/product/product-info";
+import { ProductMain } from "@/components/product/product-main";
 import { ProductTabs } from "@/components/product/product-tabs";
 import { RelatedProduct } from "@/components/product/related-product";
 import { products, getProductBySlug, getProductImage } from "@/lib/mock-data";
@@ -81,10 +80,7 @@ export default async function ProductPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
-      <div className="grid gap-10 md:grid-cols-2 md:gap-16">
-        <ProductGallery product={product} />
-        <ProductInfo product={product} average={average} count={count} />
-      </div>
+      <ProductMain product={product} average={average} count={count} />
 
       <ProductTabs product={product} reviews={reviews} />
 

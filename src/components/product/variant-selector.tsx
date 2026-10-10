@@ -15,7 +15,7 @@ export function VariantSelector({ variants, value, onChange }: VariantSelectorPr
   return (
     <div className="space-y-2">
       <p className="text-sm font-medium text-foreground">
-        {hasColors ? "Color de montura" : "Tamaño"}
+        {hasColors ? "Color de montura" : "Diseño"}
       </p>
       <div className="flex flex-wrap gap-2">
         {variants.map((variant) =>

@@ -43,7 +43,25 @@ export const products: Product[] = [
       { label: "Tamaño", value: "Talla única" },
       { label: "Uso", value: "Diario, hasta 12h" },
     ],
-    variants: [{ id: "unico", label: "Único" }],
+    variants: [
+      {
+        id: "estandar",
+        label: "Estándar",
+        image: "/images/productos/bandas-nasales.jpg",
+      },
+      {
+        id: "premium",
+        label: "Premium",
+        price: 115000,
+        image: "/images/productos/bandas-nasales-premium.jpg",
+      },
+      {
+        id: "combo",
+        label: "Combo estándar + premium",
+        price: 190000,
+        image: "/images/productos/bandas-nasales-combo.jpg",
+      },
+    ],
   },
 ];
 
@@ -56,6 +74,12 @@ const productImages: Record<string, string> = {
   "bandas-nasales": "/images/productos/bandas-nasales.jpg",
 };
 
-export function getProductImage(slug: string) {
-  return productImages[slug];
+export function getProductImage(slug: string, variantId?: string) {
+  const variant = getProductBySlug(slug)?.variants.find((v) => v.id === variantId);
+  return variant?.image ?? productImages[slug];
+}
+
+export function getVariantPrice(product: Product, variantId?: string) {
+  const variant = product.variants.find((v) => v.id === variantId);
+  return variant?.price ?? product.price;
 }

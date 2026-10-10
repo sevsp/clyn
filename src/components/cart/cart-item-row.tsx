@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Minus, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/cart-store";
-import { getProductBySlug, getProductImage } from "@/lib/mock-data";
+import { getProductBySlug, getProductImage, getVariantPrice } from "@/lib/mock-data";
 import { formatPrice } from "@/lib/utils";
 import type { CartItem } from "@/types/product";
 
@@ -20,7 +20,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
     <div className="flex gap-4 py-4">
       <div className="relative size-20 shrink-0 overflow-hidden rounded-xl bg-muted">
         <Image
-          src={getProductImage(product.slug)}
+          src={getProductImage(product.slug, item.variantId)}
           alt={product.name}
           fill
           className="object-cover"
@@ -68,7 +68,7 @@ export function CartItemRow({ item }: { item: CartItem }) {
             </Button>
           </div>
           <p className="text-sm font-semibold text-primary">
-            {formatPrice(product.price * item.quantity)}
+            {formatPrice(getVariantPrice(product, item.variantId) * item.quantity)}
           </p>
         </div>
       </div>

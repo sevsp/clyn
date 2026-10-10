@@ -16,12 +16,20 @@ export type ReviewsData = {
 };
 
 export async function getProductReviews(productSlug: string): Promise<ReviewsData> {
-  const supabase = await createClient();
-  const { data } = await supabase
-    .from("reviews")
-    .select("id, author_name, rating, comment, verified_purchase, created_at")
-    .eq("product_slug", productSlug)
-    .order("created_at", { ascending: false });
+  let data: Review[] | null = null;
+  try {
+    const supabase = await createClient();
+    const result = await supabase
+      .from("reviews")
+      .select("id, author_name, rating, comment, verified_purchase, created_at")
+      .eq("product_slug", productSlug)
+      .order("created_at", { ascending: false })
+      .abortSignal(AbortSignal.timeout(2500));
+    data = result.data;
+  } catch {
+    // Reviews are optional: if Supabase is slow or unreachable, show the
+    // product without them instead of blocking the page.
+  }
 
   const reviews = data ?? [];
   const count = reviews.length;

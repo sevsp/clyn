@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/lib/cart-store";
-import { getProductBySlug } from "@/lib/mock-data";
+import { getProductBySlug, getVariantPrice } from "@/lib/mock-data";
 import { formatPrice } from "@/lib/utils";
 
 export function CartSummary() {
@@ -12,7 +12,7 @@ export function CartSummary() {
 
   const subtotal = items.reduce((sum, item) => {
     const product = getProductBySlug(item.productSlug);
-    return sum + (product ? product.price * item.quantity : 0);
+    return sum + (product ? getVariantPrice(product, item.variantId) * item.quantity : 0);
   }, 0);
   const total = subtotal;
 

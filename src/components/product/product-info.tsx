@@ -6,6 +6,7 @@ import { Minus, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VariantSelector } from "@/components/product/variant-selector";
 import { useCartStore } from "@/lib/cart-store";
+import { getVariantPrice } from "@/lib/mock-data";
 import { formatPrice } from "@/lib/utils";
 import type { Product } from "@/types/product";
 
@@ -13,12 +14,15 @@ export function ProductInfo({
   product,
   average,
   count,
+  variantId,
+  onVariantChange,
 }: {
   product: Product;
   average: number;
   count: number;
+  variantId: string;
+  onVariantChange: (id: string) => void;
 }) {
-  const [variantId, setVariantId] = useState(product.variants[0].id);
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
 
@@ -54,8 +58,15 @@ export function ProductInfo({
 
       <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <span className="text-2xl font-bold text-primary">
-          {formatPrice(product.price)}
+          {formatPrice(getVariantPrice(product, variantId))}
         </span>
+        {variantId === "combo" && (
+          <span className="text-muted-foreground line-through">
+            {formatPrice(
+              getVariantPrice(product, "estandar") + getVariantPrice(product, "premium")
+            )}
+          </span>
+        )}
         {product.compareAtPrice && (
           <span className="text-muted-foreground line-through">
             {formatPrice(product.compareAtPrice)}
@@ -67,7 +78,7 @@ export function ProductInfo({
         <VariantSelector
           variants={product.variants}
           value={variantId}
-          onChange={setVariantId}
+          onChange={onVariantChange}
         />
       )}
 
