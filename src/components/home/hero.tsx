@@ -14,7 +14,7 @@ const slides: {
   id: string;
   product: NonNullable<ReturnType<typeof getProductBySlug>>;
   image: string;
-  mobileImage: string;
+  mobileImage?: string;
   badge: string;
   heading: [string, string];
   copy?: string;
@@ -55,7 +55,6 @@ const slides: {
     id: "bandas-nasales-deporte-descanso",
     product: getProductBySlug("bandas-nasales")!,
     image: "/images/hero/bandas-nasales-deporte-v3.jpg",
-    mobileImage: "/images/hero/bandas-nasales-deporte-mobile.jpg",
     badge: "Para correr y dormir",
     heading: ["Corre con más aire.", "Duerme sin ronquidos."],
     copy: "Las tiras nasales CLYN abren tus fosas nasales para que rindas más al entrenar y descanses de corrido por la noche.",
@@ -68,6 +67,15 @@ const slides: {
   },
 ];
 
+const mobileSlides = slides.filter(
+  (s): s is typeof s & { mobileImage: string } => Boolean(s.mobileImage)
+);
+
+const getSlideCount = () =>
+  typeof window !== "undefined" && window.matchMedia("(min-width: 768px)").matches
+    ? slides.length
+    : mobileSlides.length;
+
 export function Hero() {
   const [index, setIndex] = useState(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -75,7 +83,7 @@ export function Hero() {
   const restartTimer = useCallback(() => {
     if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      setIndex((prev) => (prev + 1) % slides.length);
+      setIndex((prev) => (prev + 1) % getSlideCount());
     }, AUTOPLAY_MS);
   }, []);
 
@@ -87,7 +95,8 @@ export function Hero() {
   }, [restartTimer]);
 
   const goTo = (i: number) => {
-    setIndex((i + slides.length) % slides.length);
+    const count = getSlideCount();
+    setIndex((i + count) % count);
     restartTimer();
   };
 
@@ -113,9 +122,9 @@ export function Hero() {
     if (touchStartX.current === null) return;
     const delta = dragXRef.current;
     if (delta > SWIPE_THRESHOLD) {
-      goTo(index - 1);
+      goTo(mIndex - 1);
     } else if (delta < -SWIPE_THRESHOLD) {
-      goTo(index + 1);
+      goTo(mIndex + 1);
     }
     touchStartX.current = null;
     dragXRef.current = 0;
@@ -123,7 +132,8 @@ export function Hero() {
     setDragX(0);
   };
 
-  const current = slides[index];
+  const mIndex = Math.min(index, mobileSlides.length - 1);
+  const mCurrent = mobileSlides[mIndex];
 
   return (
     <>
@@ -142,18 +152,18 @@ export function Hero() {
               !isDragging && "transition-transform duration-500 ease-out"
             )}
             style={{
-              width: `${slides.length * 100}%`,
-              transform: `translateX(calc(${-index * (100 / slides.length)}% + ${dragX}px))`,
+              width: `${mobileSlides.length * 100}%`,
+              transform: `translateX(calc(${-mIndex * (100 / mobileSlides.length)}% + ${dragX}px))`,
             }}
           >
-            {slides.map((s, i) => (
+            {mobileSlides.map((s, i) => (
               <div
                 key={s.id}
                 className={cn(
                   "relative h-full shrink-0 transition-opacity duration-500 ease-out",
-                  i === index ? "opacity-100" : "opacity-0"
+                  i === mIndex ? "opacity-100" : "opacity-0"
                 )}
-                style={{ width: `${100 / slides.length}%` }}
+                style={{ width: `${100 / mobileSlides.length}%` }}
               >
                 <Image
                   src={s.mobileImage}
@@ -168,23 +178,23 @@ export function Hero() {
           </div>
           <div className="pointer-events-none absolute inset-x-0 bottom-0 h-28 bg-linear-to-t from-background to-transparent" />
           <span className="pointer-events-none absolute left-4 top-4 inline-block rounded-full bg-background/90 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent backdrop-blur-sm">
-            {current.badge}
+            {mCurrent.badge}
           </span>
         </div>
 
         <div className="mt-6 space-y-3 px-6 text-center">
           <h1 className="font-heading text-3xl font-extrabold leading-tight text-primary">
-            {current.heading[0]}
+            {mCurrent.heading[0]}
             <br />
-            {current.heading[1]}
+            {mCurrent.heading[1]}
           </h1>
           <p className="mx-auto min-h-10 max-w-xs text-sm text-muted-foreground">
-            {current.copy ?? `${current.product.tagline}.`}
+            {mCurrent.copy ?? `${mCurrent.product.tagline}.`}
           </p>
           <div className="flex justify-center gap-3 pt-2">
             <Button
               size="lg"
-              render={<Link href={`/productos/${current.product.slug}`} />}
+              render={<Link href={`/productos/${mCurrent.product.slug}`} />}
               nativeButton={false}
               className="bg-accent text-accent-foreground hover:bg-accent/90"
             >
@@ -201,14 +211,14 @@ export function Hero() {
           </div>
 
           <div className="flex justify-center gap-2 pt-1">
-            {slides.map((s, i) => (
+            {mobileSlides.map((s, i) => (
               <button
                 key={s.id}
                 onClick={() => goTo(i)}
                 aria-label={`Ir al slide ${i + 1}`}
                 className={cn(
                   "h-2 rounded-full transition-all",
-                  i === index ? "w-6 bg-accent" : "w-2 bg-border"
+                  i === mIndex ? "w-6 bg-accent" : "w-2 bg-border"
                 )}
               />
             ))}
