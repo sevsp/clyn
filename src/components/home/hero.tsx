@@ -10,8 +10,23 @@ import { cn } from "@/lib/utils";
 
 const AUTOPLAY_MS = 10000;
 
-const slides = [
+const slides: {
+  id: string;
+  product: NonNullable<ReturnType<typeof getProductBySlug>>;
+  image: string;
+  mobileImage: string;
+  badge: string;
+  heading: [string, string];
+  copy?: string;
+  showDesktopCopy?: boolean;
+  textPosition: "left" | "right";
+  theme: "dark" | "light";
+  overlay: boolean;
+  fit: "contain" | "cover";
+  align: string;
+}[] = [
   {
+    id: "lentes-antiluz",
     product: getProductBySlug("lentes-antiluz")!,
     image: "/images/hero/lentes-modelo.jpg",
     mobileImage: "/images/hero/lentes-modelo-mobile.jpg",
@@ -24,12 +39,28 @@ const slides = [
     align: "object-center" as const,
   },
   {
+    id: "bandas-nasales",
     product: getProductBySlug("bandas-nasales")!,
     image: "/images/hero/bandas-nasales.jpg",
     mobileImage: "/images/hero/bandas-nasales-mobile.jpg",
     badge: "Respira mejor",
     heading: ["Respira mejor.", "Duerme mejor."],
     textPosition: "right" as const,
+    theme: "light" as const,
+    overlay: false,
+    fit: "contain" as const,
+    align: "object-center" as const,
+  },
+  {
+    id: "bandas-nasales-deporte-descanso",
+    product: getProductBySlug("bandas-nasales")!,
+    image: "/images/hero/bandas-nasales-deporte-v3.jpg",
+    mobileImage: "/images/hero/bandas-nasales-deporte-mobile.jpg",
+    badge: "Para correr y dormir",
+    heading: ["Corre con más aire.", "Duerme sin ronquidos."],
+    copy: "Las tiras nasales CLYN abren tus fosas nasales para que rindas más al entrenar y descanses de corrido por la noche.",
+    showDesktopCopy: false,
+    textPosition: "left" as const,
     theme: "light" as const,
     overlay: false,
     fit: "contain" as const,
@@ -117,7 +148,7 @@ export function Hero() {
           >
             {slides.map((s, i) => (
               <div
-                key={s.product.slug}
+                key={s.id}
                 className={cn(
                   "relative h-full shrink-0 transition-opacity duration-500 ease-out",
                   i === index ? "opacity-100" : "opacity-0"
@@ -148,7 +179,7 @@ export function Hero() {
             {current.heading[1]}
           </h1>
           <p className="mx-auto min-h-10 max-w-xs text-sm text-muted-foreground">
-            {current.product.tagline}.
+            {current.copy ?? `${current.product.tagline}.`}
           </p>
           <div className="flex justify-center gap-3 pt-2">
             <Button
@@ -172,7 +203,7 @@ export function Hero() {
           <div className="flex justify-center gap-2 pt-1">
             {slides.map((s, i) => (
               <button
-                key={s.product.slug}
+                key={s.id}
                 onClick={() => goTo(i)}
                 aria-label={`Ir al slide ${i + 1}`}
                 className={cn(
@@ -189,7 +220,7 @@ export function Hero() {
       <section className="group relative hidden aspect-16/7 w-full min-h-80 overflow-hidden md:block">
         {slides.map((s, i) => (
           <div
-            key={s.product.slug}
+            key={s.id}
             className={cn(
               "absolute inset-0 transition-opacity duration-700 ease-in-out",
               i === index ? "opacity-100" : "pointer-events-none opacity-0",
@@ -218,10 +249,33 @@ export function Hero() {
               </>
             )}
 
+            {s.showDesktopCopy === false && (
+              <>
+                <div className="absolute inset-x-0 bottom-0 h-3/5 bg-linear-to-t from-primary/90 via-primary/50 to-transparent" />
+                <div className="absolute inset-x-0 bottom-14 flex flex-col items-center gap-3 px-6 text-center text-primary-foreground">
+                  <span className="inline-block rounded-full bg-accent/20 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-accent">
+                    {s.badge}
+                  </span>
+                  <h1 className="font-heading text-3xl font-extrabold leading-tight lg:text-4xl">
+                    {s.heading[0]} {s.heading[1]}
+                  </h1>
+                  <Button
+                    size="lg"
+                    render={<Link href={`/productos/${s.product.slug}`} />}
+                    nativeButton={false}
+                    className="bg-accent text-accent-foreground hover:bg-accent/90"
+                  >
+                    Ver producto
+                  </Button>
+                </div>
+              </>
+            )}
+
             <div
               className={cn(
                 "relative mx-auto flex h-full max-w-6xl items-center px-4 sm:px-6",
-                s.textPosition === "right" && "justify-end"
+                s.textPosition === "right" && "justify-end",
+                s.showDesktopCopy === false && "hidden"
               )}
             >
               <div
@@ -249,7 +303,7 @@ export function Hero() {
                     s.theme === "dark" ? "text-primary-foreground/80" : "text-muted-foreground"
                   )}
                 >
-                  {s.product.tagline}. {s.product.description.split(". ")[0]}.
+                  {s.copy ?? `${s.product.tagline}. ${s.product.description.split(". ")[0]}.`}
                 </p>
 
                 <Button
@@ -283,7 +337,7 @@ export function Hero() {
         <div className="absolute bottom-6 left-1/2 flex -translate-x-1/2 gap-2 rounded-full bg-black/20 px-3 py-2 backdrop-blur">
           {slides.map((s, i) => (
             <button
-              key={s.product.slug}
+              key={s.id}
               onClick={() => goTo(i)}
               aria-label={`Ir al slide ${i + 1}`}
               className={cn(
