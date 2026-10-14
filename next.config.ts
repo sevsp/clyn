@@ -44,6 +44,14 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      // Si Supabase devuelve el código de OAuth a la portada (cuando la URL de
+      // retorno no coincide con su lista), lo reenviamos al callback.
+      {
+        source: "/",
+        has: [{ type: "query", key: "code" }],
+        destination: "/auth/callback",
+        permanent: false,
+      },
       {
         source: "/:path*",
         has: [{ type: "host", value: "clynpy.netlify.app" }],
