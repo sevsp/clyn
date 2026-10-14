@@ -42,6 +42,16 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [{ type: "host", value: "clynpy.netlify.app" }],
+        destination: "https://clynpy.com/:path*",
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
