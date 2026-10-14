@@ -1,7 +1,7 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { headers } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 
 export type AuthResult = { error: string } | void;
@@ -62,11 +62,19 @@ export async function signInWithGoogle(redirectTo: string) {
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
+  // El destino final viaja en una cookie: Supabase solo acepta URLs de retorno
+  // que coincidan con su lista, y una URL con query string no coincide.
+  (await cookies()).set("auth_redirect", redirectTo, {
+    httpOnly: true,
+    sameSite: "lax",
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    maxAge: 600,
+  });
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: {
-      redirectTo: `${origin}/auth/callback?redirectTo=${encodeURIComponent(redirectTo)}`,
-    },
+    options: { redirectTo: `${origin}/auth/callback` },
   });
 
   if (error || !data.url) {
