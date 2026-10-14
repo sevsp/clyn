@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { createClient } from "@/lib/supabase/client";
-import { signOut } from "@/lib/actions/auth";
 
 export function AccountMenu() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
@@ -30,6 +29,13 @@ export function AccountMenu() {
 
     return () => subscription.subscription.unsubscribe();
   }, []);
+
+  async function handleSignOut() {
+    // Se cierra la sesión en el navegador: una acción de servidor lanzada desde
+    // el menú se cancela cuando el menú se cierra y desmonta el botón.
+    await createClient().auth.signOut();
+    window.location.href = "/";
+  }
 
   if (!user) {
     return (
@@ -66,7 +72,7 @@ export function AccountMenu() {
           Mis pedidos
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        <DropdownMenuItem variant="destructive" onClick={() => signOut()}>
+        <DropdownMenuItem variant="destructive" onClick={handleSignOut}>
           Cerrar sesión
         </DropdownMenuItem>
       </DropdownMenuContent>

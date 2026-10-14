@@ -20,7 +20,9 @@ export async function GET(request: Request) {
     const supabase = await createClient();
     const { error } = await supabase.auth.exchangeCodeForSession(code);
     if (!error) {
-      return NextResponse.redirect(`${origin}${redirectTo}`);
+      const target = new URL(redirectTo, origin);
+      target.searchParams.set("login", "success");
+      return NextResponse.redirect(target);
     }
   }
 

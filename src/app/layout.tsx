@@ -3,6 +3,8 @@ import { Inter, Plus_Jakarta_Sans, Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
 import { PaymentBanner } from "@/components/layout/payment-banner";
 import { Navbar } from "@/components/layout/navbar";
+import { SplashScreen } from "@/components/layout/splash-screen";
+import { LoginSuccess } from "@/components/auth/login-success";
 import { Footer } from "@/components/layout/footer";
 import "./globals.css";
 
@@ -86,6 +88,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="es"
+      suppressHydrationWarning
       className={`${fontSans.variable} ${fontHeading.variable} ${fontLogo.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
@@ -93,10 +96,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        <SplashScreen />
         <PaymentBanner />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />
+        <LoginSuccess />
         <Toaster position="top-center" />
       </body>
     </html>

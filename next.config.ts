@@ -10,7 +10,7 @@ const cspHeader = `
   default-src 'self';
   script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""};
   style-src 'self' 'unsafe-inline';
-  img-src 'self' blob: data:;
+  img-src 'self' blob: data: https://lh3.googleusercontent.com;
   font-src 'self' data:;
   connect-src 'self' ${supabaseOrigin};
   object-src 'none';

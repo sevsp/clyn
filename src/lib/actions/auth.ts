@@ -37,6 +37,12 @@ export async function signUpWithPassword(
   redirect(redirectTo);
 }
 
+function withLoginSuccess(path: string) {
+  const target = new URL(path, "http://local");
+  target.searchParams.set("login", "success");
+  return target.pathname + target.search + target.hash;
+}
+
 export async function signInWithPassword(
   _prevState: AuthResult,
   formData: FormData
@@ -56,7 +62,7 @@ export async function signInWithPassword(
     return { error: "Email o contraseña incorrectos." };
   }
 
-  redirect(redirectTo);
+  redirect(withLoginSuccess(redirectTo));
 }
 
 export async function signInWithGoogle(redirectTo: string) {
