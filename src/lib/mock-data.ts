@@ -74,16 +74,18 @@ const productImages: Record<string, string> = {
   "bandas-nasales": "/images/productos/bandas-nasales.jpg",
 };
 
-const extraImages: Record<string, string[]> = {
+// Galerías del carrusel que reemplazan por completo la imagen principal del producto
+const galleryImages: Record<string, string[]> = {
   "lentes-antiluz": [
+    "/images/productos/lentes-antiluz-detalle.jpg",
     "/images/productos/lentes-antiluz-modelo1.jpg",
     "/images/productos/lentes-antiluz-modelo2.jpg",
-    "/images/productos/lentes-antiluz-detalle.jpg",
+    "/images/productos/lentes-antiluz-modelo3.jpeg",
   ],
 };
 
 export function getProductGalleryImages(slug: string, variantId?: string) {
-  return [getProductImage(slug, variantId), ...(extraImages[slug] ?? [])];
+  return galleryImages[slug] ?? [getProductImage(slug, variantId)];
 }
 
 export function getProductImage(slug: string, variantId?: string) {
