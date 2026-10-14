@@ -74,6 +74,18 @@ const productImages: Record<string, string> = {
   "bandas-nasales": "/images/productos/bandas-nasales.jpg",
 };
 
+const extraImages: Record<string, string[]> = {
+  "lentes-antiluz": [
+    "/images/productos/lentes-antiluz-modelo1.jpg",
+    "/images/productos/lentes-antiluz-modelo2.jpg",
+    "/images/productos/lentes-antiluz-detalle.jpg",
+  ],
+};
+
+export function getProductGalleryImages(slug: string, variantId?: string) {
+  return [getProductImage(slug, variantId), ...(extraImages[slug] ?? [])];
+}
+
 export function getProductImage(slug: string, variantId?: string) {
   const variant = getProductBySlug(slug)?.variants.find((v) => v.id === variantId);
   return variant?.image ?? productImages[slug];
