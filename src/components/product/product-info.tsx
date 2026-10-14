@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { HandCoins, Minus, Plus, Star } from "lucide-react";
+import { ArrowRight, HandCoins, Minus, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VariantSelector } from "@/components/product/variant-selector";
 import { useCartStore } from "@/lib/cart-store";
@@ -123,6 +123,25 @@ export function ProductInfo({
           Abonás cuando el producto llega a tus manos, sin pagar nada por adelantado.
         </p>
       </div>
+
+      <button
+        type="button"
+        onClick={() => window.dispatchEvent(new Event("clyn:open-reviews"))}
+        className="group flex w-full items-center gap-3 rounded-xl border border-accent/40 bg-accent/5 px-4 py-3 text-left transition hover:border-accent hover:bg-accent/10"
+      >
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-sm">
+          <Star className="size-5 fill-current" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-sm font-bold text-foreground">Dejar una reseña</span>
+          <span className="block text-xs text-muted-foreground">
+            {count > 0
+              ? `Mirá las reseñas o contanos tu experiencia`
+              : "Sé el primero en contarnos tu experiencia"}
+          </span>
+        </span>
+        <ArrowRight className="size-4 shrink-0 text-accent transition-transform group-hover:translate-x-1" />
+      </button>
     </div>
   );
 }
