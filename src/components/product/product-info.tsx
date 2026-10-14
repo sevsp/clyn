@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-import { Minus, Plus, Star } from "lucide-react";
+import { HandCoins, Minus, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { VariantSelector } from "@/components/product/variant-selector";
 import { useCartStore } from "@/lib/cart-store";
@@ -115,6 +115,14 @@ export function ProductInfo({
       >
         Agregar al carrito
       </Button>
+
+      <div className="flex items-start gap-3 rounded-xl border border-border bg-muted/50 p-3 text-sm">
+        <HandCoins className="mt-0.5 size-5 shrink-0 text-accent" />
+        <p className="text-muted-foreground">
+          <span className="font-semibold text-foreground">Pagás al recibir.</span>{" "}
+          Abonás cuando el producto llega a tus manos, sin pagar nada por adelantado.
+        </p>
+      </div>
     </div>
   );
 }

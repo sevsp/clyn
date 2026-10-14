@@ -1,6 +1,11 @@
-import { Truck, ShieldCheck, Lock } from "lucide-react";
+import { Truck, ShieldCheck, Lock, HandCoins } from "lucide-react";
 
 const trustPoints = [
+  {
+    icon: HandCoins,
+    title: "Pagás al recibir",
+    description: "Abonás cuando el producto llega a tus manos, sin pagar nada por adelantado.",
+  },
   {
     icon: Truck,
     title: "Envío a todo el país",
@@ -26,7 +31,7 @@ export function TrustSection() {
           Comprá con confianza
         </h2>
 
-        <div className="mt-12 grid gap-6 sm:grid-cols-3">
+        <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {trustPoints.map((point) => (
             <div key={point.title} className="flex flex-col items-center gap-3 text-center">
               <div className="flex size-14 items-center justify-center rounded-2xl bg-accent/10 text-accent">

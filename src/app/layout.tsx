@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans, Poppins } from "next/font/google";
 import { Toaster } from "@/components/ui/sonner";
+import { PaymentBanner } from "@/components/layout/payment-banner";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import "./globals.css";
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
         />
+        <PaymentBanner />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

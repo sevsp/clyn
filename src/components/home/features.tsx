@@ -1,4 +1,4 @@
-import { Eye, Wind, ShieldCheck } from "lucide-react";
+import { Eye, Wind, ShieldCheck, HandCoins } from "lucide-react";
 
 const features = [
   {
@@ -19,6 +19,12 @@ const features = [
     description:
       "Materiales livianos e hipoalergénicos pensados para usarse todo el día, sin molestias.",
   },
+  {
+    icon: HandCoins,
+    title: "Pagás al recibir",
+    description:
+      "Pagás cuando el producto llega a tus manos, sin adelantos. Comprás con total tranquilidad.",
+  },
 ];
 
 export function Features() {
@@ -32,7 +38,7 @@ export function Features() {
         usamos todos los días: tus ojos y tu respiración.
       </p>
 
-      <div className="mt-12 grid gap-8 sm:grid-cols-3">
+      <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
         {features.map((feature) => (
           <div key={feature.title} className="flex flex-col items-center gap-3">
             <div className="flex size-14 items-center justify-center rounded-2xl bg-accent/10 text-accent">
