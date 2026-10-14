@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { getSiteUrl } from "@/lib/site-url";
 import { createClient } from "@/lib/supabase/server";
 
 function safePath(value: string | undefined) {
@@ -7,7 +8,8 @@ function safePath(value: string | undefined) {
 }
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
+  const origin = getSiteUrl();
   const code = searchParams.get("code");
 
   const cookieStore = await cookies();

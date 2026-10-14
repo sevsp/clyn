@@ -1,7 +1,8 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { cookies, headers } from "next/headers";
+import { cookies } from "next/headers";
+import { getSiteUrl } from "@/lib/site-url";
 import { createClient } from "@/lib/supabase/server";
 
 export type AuthResult = { error: string } | void;
@@ -60,8 +61,6 @@ export async function signInWithPassword(
 
 export async function signInWithGoogle(redirectTo: string) {
   const supabase = await createClient();
-  const origin = (await headers()).get("origin");
-
   // El destino final viaja en una cookie: Supabase solo acepta URLs de retorno
   // que coincidan con su lista, y una URL con query string no coincide.
   (await cookies()).set("auth_redirect", redirectTo, {
@@ -74,7 +73,7 @@ export async function signInWithGoogle(redirectTo: string) {
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
-    options: { redirectTo: `${origin}/auth/callback` },
+    options: { redirectTo: `${getSiteUrl()}/auth/callback` },
   });
 
   if (error || !data.url) {

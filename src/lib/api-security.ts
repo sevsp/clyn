@@ -1,3 +1,5 @@
+import { getSiteUrl } from "@/lib/site-url";
+
 /**
  * Same-origin check for state-changing Route Handlers under /api.
  * Server Actions get this for free from Next.js; plain Route Handlers don't.
@@ -9,7 +11,15 @@ export function isSameOrigin(request: Request) {
   // that need this check — external callers like webhooks don't use it.
   if (!origin) return false;
   try {
-    return new URL(origin).host === new URL(request.url).host;
+    const originHost = new URL(origin).host;
+    // Detrás de Netlify request.url puede traer un host interno, por eso
+    // también se acepta el forwarded host y el dominio público del sitio.
+    const allowed = new Set([
+      new URL(request.url).host,
+      request.headers.get("x-forwarded-host"),
+      new URL(getSiteUrl()).host,
+    ]);
+    return allowed.has(originHost);
   } catch {
     return false;
   }
