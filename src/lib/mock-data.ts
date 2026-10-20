@@ -84,8 +84,20 @@ const galleryImages: Record<string, string[]> = {
   ],
 };
 
+// Fotos de modelos que van después de la imagen de la variante elegida
+const modelImages: Record<string, string[]> = {
+  "bandas-nasales": [
+    "/images/productos/bandas-nasales-modelo1.jpg",
+    "/images/productos/bandas-nasales-modelo2.jpg",
+    "/images/productos/bandas-nasales-modelo3.jpg",
+    "/images/productos/bandas-nasales-modelo4.jpg",
+  ],
+};
+
 export function getProductGalleryImages(slug: string, variantId?: string) {
-  return galleryImages[slug] ?? [getProductImage(slug, variantId)];
+  return (
+    galleryImages[slug] ?? [getProductImage(slug, variantId), ...(modelImages[slug] ?? [])]
+  );
 }
 
 export function getProductImage(slug: string, variantId?: string) {
