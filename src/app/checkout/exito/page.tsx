@@ -30,9 +30,9 @@ export default async function CheckoutExitoPage({
     },
     pending: {
       icon: <Clock className="size-12 text-amber-500" />,
-      title: "¡Tu pedido fue enviado!",
+      title: "Tu pedido está en proceso",
       description:
-        "Te contactaremos por WhatsApp para coordinar el pago y el envío.",
+        "Termina de enviar el mensaje en WhatsApp para confirmar tu pedido. Luego te contactaremos para coordinar el pago y el envío.",
     },
     failed: {
       icon: <XCircle className="size-12 text-destructive" />,
