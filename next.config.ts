@@ -8,11 +8,11 @@ const supabaseOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
 
 const cspHeader = `
   default-src 'self';
-  script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ""};
+  script-src 'self' 'unsafe-inline' https://connect.facebook.net${isDev ? " 'unsafe-eval'" : ""};
   style-src 'self' 'unsafe-inline';
-  img-src 'self' blob: data: https://lh3.googleusercontent.com;
+  img-src 'self' blob: data: https://lh3.googleusercontent.com https://www.facebook.com;
   font-src 'self' data:;
-  connect-src 'self' ${supabaseOrigin};
+  connect-src 'self' ${supabaseOrigin} https://www.facebook.com https://connect.facebook.net;
   object-src 'none';
   base-uri 'self';
   form-action 'self';
