@@ -11,6 +11,7 @@ import { useCartStore } from "@/lib/cart-store";
 import { getProductBySlug, getVariantPrice } from "@/lib/mock-data";
 import { formatPrice, cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
+import { PIXEL_CURRENCY, trackPixel } from "@/lib/meta-pixel";
 
 const SHIPPING_COST = 0;
 
@@ -43,6 +44,19 @@ export default function CheckoutPage() {
   }, 0);
   const total = items.length > 0 ? subtotal + SHIPPING_COST : 0;
 
+  const hasItems = items.length > 0;
+  useEffect(() => {
+    if (!hasItems) return;
+    trackPixel("InitiateCheckout", {
+      content_ids: items.map((item) => `${item.productSlug}:${item.variantId}`),
+      num_items: items.reduce((n, item) => n + item.quantity, 0),
+      value: total,
+      currency: PIXEL_CURRENCY,
+    });
+    // Una sola vez al entrar al checkout con productos.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasItems]);
+
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSubmitting(true);
@@ -68,6 +82,13 @@ export default function CheckoutPage() {
         return;
       }
 
+      trackPixel("Purchase", {
+        content_ids: items.map((item) => `${item.productSlug}:${item.variantId}`),
+        content_type: "product",
+        num_items: items.reduce((n, item) => n + item.quantity, 0),
+        value: total,
+        currency: PIXEL_CURRENCY,
+      });
       useCartStore.getState().clear();
       window.open(json.whatsappUrl, "_blank", "noopener,noreferrer");
       router.push(`/checkout/exito?order=${json.orderId}`);

@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { PIXEL_CURRENCY, trackPixel } from "@/lib/meta-pixel";
 import { toast } from "sonner";
 import { ArrowRight, HandCoins, Minus, Plus, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,6 +26,18 @@ export function ProductInfo({
 }) {
   const [quantity, setQuantity] = useState(1);
   const addItem = useCartStore((state) => state.addItem);
+
+  useEffect(() => {
+    trackPixel("ViewContent", {
+      content_ids: [product.slug],
+      content_name: product.name,
+      content_type: "product",
+      value: getVariantPrice(product, variantId),
+      currency: PIXEL_CURRENCY,
+    });
+    // Solo al abrir la página del producto, no al cambiar de variante.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [product.slug]);
 
   return (
     <div className="min-w-0 space-y-6">
@@ -110,6 +123,13 @@ export function ProductInfo({
         className="w-full bg-accent text-accent-foreground hover:bg-accent/90 sm:w-auto"
         onClick={() => {
           addItem(product.slug, variantId, quantity);
+          trackPixel("AddToCart", {
+            content_ids: [`${product.slug}:${variantId}`],
+            content_name: product.name,
+            content_type: "product",
+            value: getVariantPrice(product, variantId) * quantity,
+            currency: PIXEL_CURRENCY,
+          });
           toast.success(`${product.name} agregado al carrito`);
         }}
       >
@@ -136,7 +156,7 @@ export function ProductInfo({
           <span className="block text-sm font-bold text-foreground">Dejar una reseña</span>
           <span className="block text-xs text-muted-foreground">
             {count > 0
-              ? `Mirá las reseñas o contanos tu experiencia`
+              ? `Mirá las reseñas o contanos tu exph eriencia`
               : "Sé el primero en contarnos tu experiencia"}
           </span>
         </span>
