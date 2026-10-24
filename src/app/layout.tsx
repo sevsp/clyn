@@ -7,6 +7,7 @@ import { Navbar } from "@/components/layout/navbar";
 import { SplashScreen } from "@/components/layout/splash-screen";
 import { LoginSuccess } from "@/components/auth/login-success";
 import { Footer } from "@/components/layout/footer";
+import { UpsellDialog } from "@/components/cart/upsell-dialog";
 import "./globals.css";
 
 const fontSans = Inter({
@@ -125,6 +126,7 @@ fbq('track', 'PageView');`}
         <main className="flex-1">{children}</main>
         <Footer />
         <LoginSuccess />
+        <UpsellDialog />
         <Toaster position="top-center" />
       </body>
     </html>

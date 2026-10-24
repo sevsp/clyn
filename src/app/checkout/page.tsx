@@ -8,7 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/lib/cart-store";
-import { getProductBySlug, getVariantPrice } from "@/lib/mock-data";
+import { getProductBySlug } from "@/lib/mock-data";
+import { getCartSubtotal, getLineTotal } from "@/lib/pricing";
 import { formatPrice, cn } from "@/lib/utils";
 import { createClient } from "@/lib/supabase/client";
 import { PIXEL_CURRENCY, trackPixel } from "@/lib/meta-pixel";
@@ -38,10 +39,7 @@ export default function CheckoutPage() {
       .catch(() => {});
   }, []);
 
-  const subtotal = items.reduce((sum, item) => {
-    const product = getProductBySlug(item.productSlug);
-    return sum + (product ? getVariantPrice(product, item.variantId) * item.quantity : 0);
-  }, 0);
+  const subtotal = getCartSubtotal(items);
   const total = items.length > 0 ? subtotal + SHIPPING_COST : 0;
 
   const hasItems = items.length > 0;
@@ -69,6 +67,7 @@ export default function CheckoutPage() {
             productSlug: item.productSlug,
             variantId: item.variantId,
             quantity: item.quantity,
+            ...(item.offer ? { offer: true } : {}),
           })),
           contact: { name: form.name, email: form.email, phone: form.phone },
           shippingAddress: form.address,
@@ -190,7 +189,7 @@ export default function CheckoutPage() {
                     × {item.quantity}
                   </span>
                   <span>
-                    {formatPrice(getVariantPrice(product, item.variantId) * item.quantity)}
+                    {formatPrice(getLineTotal(item, items))}
                   </span>
                 </div>
               );

@@ -5,12 +5,20 @@ import type { CartItem } from "@/types/product";
 type CartState = {
   items: CartItem[];
   isOpen: boolean;
-  addItem: (productSlug: string, variantId: string, quantity?: number) => void;
+  upsellOpen: boolean;
+  addItem: (
+    productSlug: string,
+    variantId: string,
+    quantity?: number,
+    offer?: boolean
+  ) => void;
   removeItem: (productSlug: string, variantId: string) => void;
   setQuantity: (productSlug: string, variantId: string, quantity: number) => void;
   clear: () => void;
   open: () => void;
   close: () => void;
+  openUpsell: () => void;
+  closeUpsell: () => void;
 };
 
 export const useCartStore = create<CartState>()(
@@ -18,7 +26,8 @@ export const useCartStore = create<CartState>()(
     (set) => ({
       items: [],
       isOpen: false,
-      addItem: (productSlug, variantId, quantity = 1) =>
+      upsellOpen: false,
+      addItem: (productSlug, variantId, quantity = 1, offer = false) =>
         set((state) => {
           const existing = state.items.find(
             (item) => item.productSlug === productSlug && item.variantId === variantId
@@ -27,15 +36,22 @@ export const useCartStore = create<CartState>()(
             return {
               items: state.items.map((item) =>
                 item === existing
-                  ? { ...item, quantity: item.quantity + quantity }
+                  ? {
+                      ...item,
+                      quantity: item.quantity + quantity,
+                      ...(item.offer || offer ? { offer: true } : {}),
+                    }
                   : item
               ),
-              isOpen: true,
+              isOpen: !offer,
             };
           }
           return {
-            items: [...state.items, { productSlug, variantId, quantity }],
-            isOpen: true,
+            items: [
+              ...state.items,
+              { productSlug, variantId, quantity, ...(offer ? { offer } : {}) },
+            ],
+            isOpen: !offer,
           };
         }),
       removeItem: (productSlug, variantId) =>
@@ -55,7 +71,9 @@ export const useCartStore = create<CartState>()(
       clear: () => set({ items: [] }),
       open: () => set({ isOpen: true }),
       close: () => set({ isOpen: false }),
+      openUpsell: () => set({ isOpen: false, upsellOpen: true }),
+      closeUpsell: () => set({ upsellOpen: false }),
     }),
-    { name: "clyn-cart" }
+    { name: "clyn-cart", partialize: (state) => ({ items: state.items }) }
   )
 );

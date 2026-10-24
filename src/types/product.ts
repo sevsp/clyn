@@ -28,4 +28,6 @@ export type CartItem = {
   productSlug: string;
   variantId: string;
   quantity: number;
+  // Agregado desde la oferta del carrito (precio especial por llevar ambos productos).
+  offer?: boolean;
 };

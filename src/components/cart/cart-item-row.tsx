@@ -5,6 +5,7 @@ import { Minus, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/lib/cart-store";
 import { getProductBySlug, getProductImage, getVariantPrice } from "@/lib/mock-data";
+import { getLineTotal } from "@/lib/pricing";
 import { formatPrice } from "@/lib/utils";
 import type { CartItem } from "@/types/product";
 
@@ -12,9 +13,12 @@ export function CartItemRow({ item }: { item: CartItem }) {
   const product = getProductBySlug(item.productSlug);
   const setQuantity = useCartStore((state) => state.setQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
+  const items = useCartStore((state) => state.items);
 
   if (!product) return null;
   const variant = product.variants.find((v) => v.id === item.variantId);
+  const lineTotal = getLineTotal(item, items);
+  const regularTotal = getVariantPrice(product, item.variantId) * item.quantity;
 
   return (
     <div className="flex gap-4 py-4">
@@ -67,9 +71,14 @@ export function CartItemRow({ item }: { item: CartItem }) {
               <Plus className="size-3" />
             </Button>
           </div>
-          <p className="text-sm font-semibold text-primary">
-            {formatPrice(getVariantPrice(product, item.variantId) * item.quantity)}
-          </p>
+          <div className="text-right">
+            {lineTotal < regularTotal && (
+              <p className="text-xs text-muted-foreground line-through">
+                {formatPrice(regularTotal)}
+              </p>
+            )}
+            <p className="text-sm font-semibold text-primary">{formatPrice(lineTotal)}</p>
+          </div>
         </div>
       </div>
     </div>

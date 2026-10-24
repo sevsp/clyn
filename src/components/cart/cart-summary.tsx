@@ -1,20 +1,29 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/lib/cart-store";
-import { getProductBySlug, getVariantPrice } from "@/lib/mock-data";
+import { getCartSubtotal, getMissingOffer } from "@/lib/pricing";
 import { formatPrice } from "@/lib/utils";
 
 export function CartSummary() {
+  const router = useRouter();
   const items = useCartStore((state) => state.items);
 
-  const subtotal = items.reduce((sum, item) => {
-    const product = getProductBySlug(item.productSlug);
-    return sum + (product ? getVariantPrice(product, item.variantId) * item.quantity : 0);
-  }, 0);
+  const subtotal = getCartSubtotal(items);
   const total = subtotal;
+
+  function handleCheckout() {
+    if (items.length === 0) return;
+    const { close, openUpsell } = useCartStore.getState();
+    if (getMissingOffer(items)) {
+      openUpsell();
+      return;
+    }
+    close();
+    router.push("/checkout");
+  }
 
   return (
     <div className="space-y-3">
@@ -32,11 +41,10 @@ export function CartSummary() {
         <span>{formatPrice(total)}</span>
       </div>
       <Button
-        render={<Link href="/checkout" onClick={() => useCartStore.getState().close()} />}
-        nativeButton={false}
         size="lg"
-        className="w-full bg-accent text-accent-foreground hover:bg-accent/90 aria-disabled:pointer-events-none aria-disabled:opacity-50"
-        aria-disabled={items.length === 0}
+        onClick={handleCheckout}
+        disabled={items.length === 0}
+        className="w-full bg-accent text-accent-foreground hover:bg-accent/90"
       >
         Ir a pagar
       </Button>

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { getProductBySlug, getVariantPrice } from "@/lib/mock-data";
+import { getProductBySlug } from "@/lib/mock-data";
+import { getLineParts } from "@/lib/pricing";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { formatPrice } from "@/lib/utils";
@@ -16,6 +17,7 @@ const checkoutSchema = z.object({
         productSlug: z.string(),
         variantId: z.string(),
         quantity: z.number().int().positive(),
+        offer: z.boolean().optional(),
       })
     )
     .min(1),
@@ -46,7 +48,7 @@ export async function POST(request: Request) {
   }
   const { items, contact, shippingAddress } = parsed.data;
 
-  const lineItems = items.map((item) => {
+  const lineItems = items.flatMap((item) => {
     const product = getProductBySlug(item.productSlug);
     if (!product) {
       throw new Error(`Producto no encontrado: ${item.productSlug}`);
@@ -55,16 +57,16 @@ export async function POST(request: Request) {
     if (!variant) {
       throw new Error(`Variante no encontrada: ${item.variantId}`);
     }
-    return {
+    const baseName =
+      product.variants.length > 1 ? `${product.name} — ${variant.label}` : product.name;
+    // El precio de oferta se valida acá: solo vale si el otro producto está en el pedido.
+    return getLineParts(item, items).map((part) => ({
       productSlug: product.slug,
       variantId: variant.id,
-      productName:
-        product.variants.length > 1
-          ? `${product.name} — ${variant.label}`
-          : product.name,
-      unitPrice: getVariantPrice(product, variant.id),
-      quantity: item.quantity,
-    };
+      productName: part.offer ? `${baseName} (oferta)` : baseName,
+      unitPrice: part.unitPrice,
+      quantity: part.quantity,
+    }));
   });
 
   const subtotal = lineItems.reduce((sum, item) => sum + item.unitPrice * item.quantity, 0);
